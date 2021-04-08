@@ -1,0 +1,124 @@
+import csv
+# All the students' data lists
+with open('teacher.csv') as csvfile:
+    header = csvfile.readline()
+    data = csv.reader(csvfile, delimiter = ',')
+    student_info = []
+    for line in data:
+        student_info.append(line)
+
+# All the variables list
+
+name = []
+classes = []
+gender = []
+assessment1 = []
+assessment2 = []
+final = []
+homework = []
+success = []
+improvements = []
+communication = []
+shortcoming = []
+final_grade = []
+
+for student in student_info:
+    name.append(student[0]+ ' '+student[1])
+    classes.append(int(student[2]))
+    gender.append(student[3])
+    assessment1.append(int(student[4]))
+    assessment2.append(int(student[5]))
+    final.append(int(student[6]))
+    homework.append(int(student[7]))
+    success.append(student[8])
+    improvements.append(student[9])
+    communication.append(student[10])
+    final_grade.append(int(student[11]))
+    shortcoming.append(student[12])
+
+# All the functions that we will use to make comments
+
+def intro():
+    '''Introduction on student comments'''
+    return 'In this semester of AP Statistics, we covered on bias, t-test, one and two tail test, statistic analysis, and z-scores. To continue to expand our knowledges on Stat in second semester, we will cover up on final with all these topics that we learned for this semester. Since we have had daily homeworks that were graded, those will help to recover knowledges. Students in Stats took two small assessments and one big final. They also had to communicate with teachers and peers to show their knowledges and help each others.'
+
+def morf(i):
+    if gender[i] == 'M':
+        x = 'he'
+        z = 'his'
+    if gender[i] == 'F':
+        x = 'she'
+        z = 'her'
+    return x,z
+
+# Comments on tests the student took assessment1, 2 and final
+def tests(i):
+    x,z = morf(i)
+    average = round((assessment1[i] + assessment2[i] + final[i])/3,1)
+    if average > 93:
+        return f"{name[i],title()} has shown huge understandment of the subject through these tests. With outstanding {average}%, We know that {x} will become even successful in second semester for this class."
+    elif average > 80:
+        return f"{name[i],title()} has shown some understandment of the subject through these tests. With an average of {average}%. We want {x} to prepare little bit more on these test on firsthand  and we believe in {z} that {x} will do well in second semester."
+    else:
+        return f"{name[i],title()} has shown little understandment of the subject through these tests. However, we want 'z' to work harder for this class and reach out if they need help. With an average of {average}%, hope {x} becomes successful student for this class."
+
+# Comments on Homework
+def hw(i):
+    x,z = morf(i)
+    if homework[i] > 90:
+         return f" {x} scored of {homework[i]}% on homeworks, as the score shows 'x' is prepared for all the syncronous classes :), keep up your work {name}!."
+    elif homework[i] > 70:
+         return f" {x} scored of {homework[i]}% on homeworks, as the score shows 'x' put some efforts to prepare for the classes. I think {x} can improve on working with homeworks. Keep up with good work {name}."
+    else:
+         return f" {x} scored of {homework[i]}% on homeworks, as the score shows 'x' could improve on getting homework done in time. If you have any trouble solving problems, feel free to email me to get help."
+
+# communication
+
+def communicate(i):
+    x,z = morf(i)
+    if communication[i] == 100:
+        return f"{name[i],title()} communicated with peers and I well. This shows that {x} participated well for class and knows how to work with teachers and peers in class."
+    elif communication > 80:
+        return f"{name[i],title()} communicated with peers and I fairly well. This shows that {x} tried to put effort to participate in class and work with teachers and peers in class."
+    else:
+        return f"{name[i],title()} communicated poorly with peers and I. {x} needs to know how to communicate with peers and I to have better participation and knowledge."
+
+# success & improvements
+
+def proscons(i):
+    x,z = morf(i)
+    return f"{name[i],title()} has been one of the best student for the class this semester."
+    return f"{x.title()} {success[i].lower()} was one of {z} ways to be successed in this class."
+    return f"However, {x} needs to improve on {improvements[i].lower}, I believe that {x} can do better at it so {x} can be even more successful for the class."
+    if shortcoming[i] == 'None':
+        return f" Finally, {x} never failed or had a trouble with any assessments or final in this class."
+    else:
+        return f"{x.title()} was having trouble on {shortcoming[i].lower()}."
+
+# Last paragraph, conclusion
+
+def conclusion(i):
+    x,z = morf(i)
+    if final_grade[i] > 92:
+        return f" I'm pleasured to have {name[i],title()} this year for this class. {x} was one of the top students for this course and had lots of success in the class. {z.title()} final grade is {final_grade[i]}, which is an A."
+    elif final_grade[i] > 86:
+        return f" I'm pleasured to have {name[i],title()} this year for this class. {x} has done well for this course. I believe that he could done better. {z.title()} final grade is {final_grade[i]}, which is an B."
+    elif final_grade[i] > 79:
+         return f" I'm pleasured to have {name[i],title()} this year for this class. {x} has met some expectations, however, {x} needed to improve little bit more and had lots of challenges throughout the class. {z.title()} final grade is {final_grade[i]}, which is an C."
+    else:
+         return f" I'm pleasured to have {name[i],title()} this year for this class. {x} has not met the expectation of the class. {x} needs to take a course again to gain credit. {z.title()} final grade is {final_grade[i]}, which is an F."
+
+for i in range(len(name)):
+    essay = ' '
+    morf(i)
+    essay += intro(i)
+    essay += proscons(i)
+    essay += tests(i)
+    essay += hw(i)
+    essay += communicate(i)
+    essay += conclusion(i)
+    fout = open(f"{name[i]}.txt", 'w')
+    fout.write(essay)
+    fout.close()
+
+
